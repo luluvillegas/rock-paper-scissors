@@ -1,5 +1,7 @@
 <h1 align=center>Rock-Paper-Scissors Game</h1>
 
+Play HERE: https://luluvillegas.github.io/rock-paper-scissors/
+
 This game was created using HTML, CSS and JavaScript for a The Odin Project Fundamentals project.
 
 ![Screenshot 2024-02-23 at 11 55 47 AM](https://github.com/luluvillegas/rock-paper-scissors/assets/28613689/cf5e1d5d-43fb-40a1-8455-3ff80c5a4d63)
