@@ -4,68 +4,116 @@ function getComputerChoice() {
   return options[Math.floor(Math.random() * options.length)];
 }
 
-function getPlayerChoice() {
-  let selection = prompt(`What is your choice: Rock, Paper or Scissors?`);
-  return selection.toLowerCase();
+function showComputerChoice(computerSelection) {
+  const pcArea = document.querySelector(`.pc-area`);
+  let existingSelection = document.querySelector(`div.pc-area > button`);
+  if (existingSelection) {
+    pcArea.removeChild(existingSelection);
+  }
+  let newSelection = document.createElement(`button`);
+  newSelection.classList.add(`btn-computer-selection`);
+  if (`${computerSelection}` === `rock`) {
+    newSelection.textContent = `👊`;
+  } else if (`${computerSelection}` === `paper`) {
+    newSelection.textContent = `🖐️`;
+  } else {
+    newSelection.textContent = `✌️`;
+  }
+  pcArea.appendChild(newSelection);
+}
+
+function setPlayerSelection(e) {
+  let playerSelection = e.target.id;
+  return playerSelection;
+}
+
+function cleanUpPlayerSelection() {
+  for (let i = 0; i < playerChoices.length; i++) {
+    playerChoices[i].classList.remove(`visited`);
+  }
+}
+
+function setGameResults() {
+  const gameResultsArea = document.querySelector(`.game-results`);
+
+  let pcResults = document.querySelector(`.pc-results`);
+  pcResults.textContent = `PC: ${computerCount}`;
+  let userResults = document.querySelector(`.user-results`);
+  userResults.textContent = `User: ${playerCount}`;
+
+  let existingGameResult = document.querySelector(`.game-results > p`);
+  if (existingGameResult) {
+    gameResultsArea.removeChild(existingGameResult);
+  }
+  if (totalRoundsPlayed === 5) {
+    let gameResults = document.createElement(`p`);
+    gameResults.classList.add(`final-result`);
+    if (playerCount === computerCount) {
+      gameResults.textContent = `IT'S A TIE!`;
+    } else if (playerCount > computerCount) {
+      gameResults.textContent = `YOU WIN THE GAME!`;
+    } else {
+      gameResults.textContent = `THE COMPUTER WINS THE GAME!`;
+    }
+    gameResultsArea.appendChild(gameResults);
+    totalRoundsPlayed = 0;
+    computerCount = 0;
+    playerCount = 0;
+  }
 }
 
 function playRound(playerSelection, computerSelection) {
-  let result;
+  const roundResults = document.querySelector(`.round-results`);
+  let existingResult = document.querySelector(`.round-results > p`);
+  if (existingResult) {
+    roundResults.removeChild(existingResult);
+  }
+  let newResult = document.createElement(`p`);
   if (playerSelection === computerSelection) {
-    result = `It's a tie!`;
+    newResult.textContent = `It's a tie!`;
   } else if (playerSelection === `rock`) {
     if (computerSelection === `paper`) {
-      result = `You lose! ${computerSelection} beats ${playerSelection}`;
+      newResult.textContent = `You lose the round! ${computerSelection} beats ${playerSelection}`;
       computerCount++;
     } else if (computerSelection === `scissors`) {
-      result = `You win! ${playerSelection} beats ${computerSelection}`;
+      newResult.textContent = `You win the round! ${playerSelection} beats ${computerSelection}`;
       playerCount++;
     }
   } else if (playerSelection === `paper`) {
     if (computerSelection === `rock`) {
-      result = `You win! ${playerSelection} beats ${computerSelection}`;
+      newResult.textContent = `You win the round! ${playerSelection} beats ${computerSelection}`;
       playerCount++;
     } else if (computerSelection === `scissors`) {
-      result = `You lose! ${computerSelection} beats ${playerSelection}`;
+      newResult.textContent = `You lose the round! ${computerSelection} beats ${playerSelection}`;
       computerCount++;
     }
   } else if (playerSelection === `scissors`) {
     if (computerSelection === `rock`) {
-      result = `You lose! ${computerSelection} beats ${playerSelection}`;
+      newResult.textContent = `You lose the round! ${computerSelection} beats ${playerSelection}`;
       computerCount++;
     } else if (computerSelection === `paper`) {
-      result = `You win! ${playerSelection} beats ${computerSelection}`;
+      newResult.textContent = `You win the round! ${playerSelection} beats ${computerSelection}`;
       playerCount++;
     }
-  } else {
-    result = `Something went wrong, it might be the spelling`;
   }
-  return result;
-}
-
-function playGame() {
-  for (let i = 0; i < 5; i++) {
-    let computerSelection = getComputerChoice();
-    let playerSelection = getPlayerChoice();
-
-    let round = playRound(playerSelection, computerSelection);
-    console.log(`Computer seleccion: ` + computerSelection);
-    console.log(`Player seleccion: ` + playerSelection);
-    console.log(round);
-    console.log(`Player: ` + playerCount);
-    console.log(`Computer: ` + computerCount);
-  }
-  if (playerCount === computerCount) {
-    gameResult = `It is a tied game`;
-  } else if (playerCount > computerCount) {
-    gameResult = `You win!`;
-  } else {
-    gameResult = `The computer wins!`;
-  }
-  return gameResult;
+  roundResults.appendChild(newResult);
+  totalRoundsPlayed++;
+  setGameResults();
 }
 
 let playerCount = 0;
 let computerCount = 0;
-let game = playGame();
-console.log(game);
+let totalRoundsPlayed = 0;
+
+let playerChoices = document.querySelectorAll(`.btn-player-selection`);
+playerChoices = Array.from(playerChoices);
+for (let i = 0; i < playerChoices.length; i++) {
+  playerChoices[i].addEventListener(`click`, (e) => {
+    cleanUpPlayerSelection();
+    e.target.classList.add(`visited`);
+    let playerSelection = setPlayerSelection(e);
+    let computerSelection = getComputerChoice();
+    showComputerChoice(computerSelection);
+    playRound(playerSelection, computerSelection);
+  });
+}

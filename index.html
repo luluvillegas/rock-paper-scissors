@@ -4,7 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors Game</title>
-    <script type="text/javascript" src="./game.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="./game.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <div class="title"><h1>ROCK - PAPER - SCISSORS</h1></div>
+      <div class="board">
+        <div class="pc-area">
+          <h3 class="subtitle">Computer's choice</h3>
+        </div>
+        <div class="user-area">
+          <h3 class="subtitle">Your choice</h3>
+          <div class="buttons">
+            <button class="btn-player-selection" id="rock">👊</button>
+            <button class="btn-player-selection" id="paper">🖐️</button>
+            <button class="btn-player-selection" id="scissors">✌️</button>
+          </div>
+        </div>
+      </div>
+      <div class="results">
+        <div class="round-results"></div>
+        <div class="game-results">
+          <h2 class="results-title">RESULTS</h2>
+          <div class="users-results subtitle">
+            <p class="pc-results">PC:</p>
+            <p class="user-results">User:</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><h6>Created by Lulu Villegas</h6></div>
+  </body>
 </html>
